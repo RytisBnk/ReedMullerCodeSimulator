@@ -7,15 +7,16 @@ public class Channel {
     private static final int upperBound = 100000;
 
     /**
-     * @param probability - probability that any character sent through a channel will be altered (chance of error)
+     * @param probability - tikimybe kad ivyks klaida
      */
     public Channel(double probability) {
         this.probability = probability;
     }
 
     /**
-     * @param data - binary string that will be sent through a channel
-     * @return modified data string, containing errors based on probability of failure
+     * Keicia duomenis pagal tikimybe (padaro klaidas atsistiktinai)
+     * @param data - dvejetainis tekstas kuris bus siunciamas kanalu
+     * @return tekstas su padarytomis klaidomis
      */
     public String sendData(String data) {
         Random generator = new Random();

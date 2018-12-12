@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TextFrame extends JFrame {
+    /**
+     * Sukuriamas grafinis interfeisas. Nekomentuotos dalys yra tiesiog grafinės sąsajos nusakymas.
+     */
     public TextFrame() {
         super();
 
@@ -63,7 +66,11 @@ public class TextFrame extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         JButton sendTextButton = new JButton("Send text");
+        /**
+         * Vykdomas paspaudus "send text" mygtuka
+         */
         sendTextButton.addActionListener(e -> {
+            // surenkama informacija is ivedimui skirtu lauku
             String message = originalTextArea.getText();
             int m = Integer.parseInt(mInput.getText());
             double probability = Double.parseDouble(probInput.getText());
@@ -71,15 +78,23 @@ public class TextFrame extends JFrame {
             Encoder encoder = new Encoder(m);
             Decoder decoder = new Decoder(m);
             BinaryConverter converter = new BinaryConverter();
+            // tekstas konvertuojamas i dvejetaine israiska
             String binaryMessage = converter.getBinaryString(message);
 
+            // siunciamas dvejetainis tekstas nenaudojant kodo, konvertuojamas atgal is dvejetainio teksto, parodomas ekrane
             String nonEncodedBinaryResult= channel.sendData(binaryMessage);
             nonEncodedTextArea.setText(converter.getUTF8String(nonEncodedBinaryResult));
 
+            // dvejetainis tekstas papildomas 0 kad butu reikiamo ilgio, uzkoduojamas R(1,m) kodu, siunciamas kanalu
             String encodedBinaryString = encoder.encode(addMissingZeroes(binaryMessage, m));
             String encodedBinaryResult = channel.sendData(encodedBinaryString);
+            // atstatoma tarnybine informacija
             encodedBinaryResult = removeUtilityErrors(encodedBinaryResult, m);
+            // dekoduojamas dvejetainis tekstas
             String decodedBinaryResult = decoder.decode(encodedBinaryResult);
+            // isimama tarnybine informacija is dvejetainio dekoduoto teksto
+            // dvejetainis tekstas konvertuojamas atgal is dvejetainio teksto
+            // parodomas ekrane
             String originalMessage = converter.getUTF8String(decodedBinaryResult.substring((m + 1) - (binaryMessage.length() % (m + 1))));
             encodedTextArea.setText(originalMessage);
         });
@@ -94,6 +109,12 @@ public class TextFrame extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Papildo teksta iki reikiamo skaidymui ilgio
+     * @param binary - dvejetainis tekstas
+     * @param m - R(1,m) kodo parametras
+     * @return dvejetainis tekstas papildytas nuliais (pradzioje) iki reikiamo ilgio
+     */
     private String addMissingZeroes(String binary, int m) {
         StringBuilder builder = new StringBuilder();
         int diff = (m + 1) - (binary.length() % (m + 1));
@@ -104,6 +125,12 @@ public class TextFrame extends JFrame {
         return builder.toString();
     }
 
+    /**
+     * Istaiso tarnybine informacija vektoriaus pradzioje
+     * @param binary - is kanalo isejusi infoirmacija
+     * @param m - kodo R(1,m) parametras
+     * @return vektorius su istaisyta tarnybine informacija
+     */
     private String removeUtilityErrors(String binary, int m) {
         int diff = (m + 1) - (binary.length() % (m + 1));
         StringBuilder builder = new StringBuilder();

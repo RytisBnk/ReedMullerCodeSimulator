@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 public class MatrixFactory {
     /**
-     * @param m
-     * @return R(1,m) code generator matrix
+     * Sukuria generuojancia matrica R(1,m) kodui
+     * @param m - R(1,m) parametras
+     * @return Matrix objekta representuojanti kodo generuojancia matrica
      */
     public Matrix createGeneratorMatrix(int m) {
         int height = m + 1;
@@ -29,6 +30,11 @@ public class MatrixFactory {
         return matrix;
     }
 
+    /**
+     * Sukuria nurodytu laipsnio vienetine matrica
+     * @param size - vienetines matricos laipsnis
+     * @return size X size dydzio Matrix objektas
+     */
     public Matrix createIdentityMatrix(int size) {
         Matrix matrix = new Matrix(size, size);
         int[][] data = matrix.getData();
@@ -39,6 +45,10 @@ public class MatrixFactory {
         return matrix;
     }
 
+    /**
+     * Sukuria 2 eiles Hadamardo matrica (1 eilute: 1, 1. 2 eilute: 1, -1)
+     * @return MAtrix objektas, representuojantis 2 eiles hadamardo matrica
+     */
     public Matrix createHadamard2Matrix() {
         Matrix matrix = new Matrix(2, 2);
         matrix.setValues(new int[][]{
@@ -49,9 +59,10 @@ public class MatrixFactory {
     }
 
     /**
-     * @param length - the length of the generator matrix row (or number of columns in the generator matrix)
-     * @param maxConsecutiveSymbols - maximum number of 1s or 0s to be written consecutively
-     * @return generator matrix row
+     * Sugeneruoja skaiciu masyva, kuriame puse reiksmiu bus 1, kiat puse - 0
+     * @param length - masyvo dydis, turi buti lyginis skaicius
+     * @param maxConsecutiveSymbols - kiek to paties simbolio rasyti is eiles, pvz: jei 1, 010101..., jei 2 tai 00110011...
+     * @return generuojancios matricos reiksmiu eilute
      */
     private int[] getFilledRow(int length, int maxConsecutiveSymbols) {
         int currentSymbol = 0;
@@ -68,6 +79,12 @@ public class MatrixFactory {
         return result;
     }
 
+    /**
+     * Apskaiciuoja po kiek 1 ar 0 is eiles rasyti 1 generuojancios matricos tam tikroje eiluteje
+     * @param rowIndex - eilutes indeksas
+     * @param m - R(1,m) kodo parametras
+     * @return skaicius, nusakantis kiek to paties simbolio is eiles reikia rasyti konkreciu indeksu pazymetoje eiluteje
+     */
     private int getMaxConsecutive(int rowIndex, int m) {
         return (int) (Math.pow(2, m) / Math.pow(2, rowIndex + 1));
     }

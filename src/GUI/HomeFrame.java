@@ -4,10 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class HomeFrame extends JFrame {
+    /**
+     * Sukuriamas grafinis interfeisas. Visi metodai cia skirti lango issidestymo nusakymui.
+     */
     public HomeFrame() {
         super();
 
-        this.setSize(400, 60);
+        this.setSize(400, 80);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         this.setTitle("Reed-Muller code sending simulator");
@@ -21,13 +24,8 @@ public class HomeFrame extends JFrame {
         sendText.setText("Text");
         sendText.addActionListener(e -> new TextFrame());
 
-        JButton sendBmp = new JButton();
-        sendBmp.setText("Image");
-        sendBmp.addActionListener(e -> new ImageFrame());
-
         panel.add(sendVector);
         panel.add(sendText);
-        panel.add(sendBmp);
 
         panel.setVisible(true);
         this.add(panel);

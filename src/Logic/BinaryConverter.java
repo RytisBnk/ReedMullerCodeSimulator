@@ -2,8 +2,9 @@ package Logic;
 
 public class BinaryConverter {
     /**
-     * @param text
-     * @return binary representation of passed text
+     * Konvertuoja teksta i dvejetaine teskto eilute (utf-8 simbolius i (0, 1)
+     * @param text - is GUI paduotas tekstas
+     * @return dvejetaine teksto reprezentacija String kintamajame
      */
     public String getBinaryString(String text) {
         StringBuilder builder = new StringBuilder();
@@ -22,8 +23,9 @@ public class BinaryConverter {
     }
 
     /**
-     * @param binaryString
-     * @return string encoded in UTF-8 characters
+     * Konvertuoja dvejetaine teksto israiska i utf-8 formata
+     * @param binaryString - devejetainis tekstas
+     * @return utf-8 formato tekstas
      */
     public String getUTF8String(String binaryString) {
         StringBuilder builder = new StringBuilder();
@@ -37,6 +39,12 @@ public class BinaryConverter {
         return builder.toString();
     }
 
+    /**
+     * Isskaido dvejetaine israiska i Vector klases objektus
+     * @param message - devjetainis tekstas
+     * @param vectorLength -  vektoriaus ilgis
+     * @return Vector objektu masyvas, representuojantis paduota teksta
+     */
     public Vector[] splitBinaryStringToVectors(String message, int vectorLength) {
         int vectorCount = message.length() / vectorLength;
         Vector[] result = new Vector[vectorCount];
@@ -50,6 +58,7 @@ public class BinaryConverter {
     }
 
     /**
+     * Iskaido dvejetaini teksta i skaiciu masyva
      * @param binaryString
      * @return integer array representation of binary string
      */

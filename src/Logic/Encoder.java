@@ -11,8 +11,9 @@ public class Encoder {
     }
 
     /**
-     * @param data - binary string
-     * @return RM(1,m) encoded binary string
+     * Uzkoduoja duomenis R(1, m) kodu
+     * @param data - dcejetaine simboliu eilute
+     * @return uzkoduota dvejetaine simboliu eilute
      */
     public String encode(String data) {
         Vector[] dataVectors = splitToVectors(data);
@@ -25,8 +26,9 @@ public class Encoder {
     }
 
     /**
-     * @param message - binary string representing the data
-     * @return array of Vector objects with a length of (m + 1), each containing (m + 1)/message_length of the data
+     * Isskaido duomenis i m + 1 ilgio vektorius
+     * @param message - dcejetaine simboliu eilute
+     * @return Vector objektu masyvas
      */
     private Vector[] splitToVectors(String message) {
         int mod = message.length() % (m + 1);

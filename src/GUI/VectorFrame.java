@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 
 class VectorFrame extends JFrame {
+    /**
+     * Nekomentuota dalis kodo nurodo kaip turi atrodyti langas.
+     */
     VectorFrame() {
         super();
 
@@ -62,17 +65,25 @@ class VectorFrame extends JFrame {
 
         JPanel controlPane = new JPanel();
         JButton sendVector = new JButton("Send vector");
+        /**
+         * Siunciamas vektorius kanalu
+         */
         sendVector.addActionListener(e -> {
+            // surenkami ivesties duoemenys
             String vectorText = vectorInput.getText();
             int m = Integer.parseInt(mInput.getText());
             double probability = Double.parseDouble(probInput.getText());
             Encoder encoder = new Encoder(m);
             Channel channel = new Channel(probability);
+            // uzkoduojamas vektorius, siunciamas kanalu, parodomas is kanalo isejes vektorius
             String encodedString = encoder.encode(vectorText);
             String receivedString = channel.sendData(encodedString);
             outputVectorField.setText(receivedString);
         });
         JButton decodeVector = new JButton("Decode vector");
+        /**
+         * Dekoduojamas is kanalo isejes vektorius ir parodomas ekrane
+         */
         decodeVector.addActionListener(e -> {
             String receivedMessage = outputVectorField.getText();
             int m = Integer.parseInt(mInput.getText());

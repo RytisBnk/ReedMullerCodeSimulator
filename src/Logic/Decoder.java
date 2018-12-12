@@ -9,6 +9,11 @@ public class Decoder {
         hmiMatrices = createHmiMatrices();
     }
 
+    /**
+     * dekoduoja teksta pagal greita Hadamardo transformacija
+     * @param message - R(1,m) uzkoduotas dvejetainis tekstas
+     * @return dekoduotas tekstas
+     */
     public String decode(String message) {
         BinaryConverter converter = new BinaryConverter();
         Vector[] receivedVectors = converter.splitBinaryStringToVectors(message, (int) Math.pow(2, m));
@@ -29,6 +34,11 @@ public class Decoder {
         return builder.toString();
     }
 
+    /**
+     * Visus 0 koordinates vektoriuje pakeicia i -1
+     * @param vectors - vektoriu masyvas
+     * @return pakeistas vektoriu masyvas, kur visos koordinates yra -1 arba 1
+     */
     private Vector[] alterVectors(Vector[] vectors) {
         Vector[] result = new Vector[vectors.length];
         for (int i = 0; i < vectors.length; i++) {
@@ -41,6 +51,13 @@ public class Decoder {
         return result;
     }
 
+    /**
+     * Grazina vektoriu Wi, kur i = 1, 2, ... m, W1 = Wstart * H(1, m), Wi = W(i-1) * H(i, m)
+     * Wstart -  is alterVectors metodo gautas vektorius
+     * @param vector - vektoriu sekos pries tai einantis vektorius
+     * @param i - vektoriaus indeksas
+     * @return kitas vektorius auksciau apibreztoje sekoje
+     */
     private Matrix computeWMVector(Vector vector, int i) {
         if (i == 1) {
             return vector.multiply(hmiMatrices[i - 1]);
@@ -50,6 +67,15 @@ public class Decoder {
         }
     }
 
+    /**
+     * Generuoja H(i,m) matricas, kurios veliau naudojamos generuoti Wi vektoriams
+     * H(i,m) = I(2^(m-1)) x H x I(2^(i-1))
+     * Kur I(N) - vienetine NxN matrica
+     * H - 2 eiles hadamardo matrica [1, 1 ]
+     *                               [1, -1]
+     * Operacija x - kroneckerio produktas
+     * @return matricu masyvas kur kieviena matrica tenkina virsuj nurodytas salygas
+     */
     private Matrix[] createHmiMatrices() {
         MatrixFactory factory = new MatrixFactory();
         Matrix[] result = new Matrix[m];
@@ -64,6 +90,11 @@ public class Decoder {
         return result;
     }
 
+    /**
+     * Suranda didziausia modulines reiksmes pozicija vektoriuje (pradedant nuo 0)
+     * @param vector - Vektorius kuriame ieskos reiksmes
+     * @return pozicija, nuo 0 iki vektoriaus ilgio
+     */
     private int getLargestAbsoluteValuePosition(Matrix vector) {
         int maxValue = 0;
         int index = 0;
@@ -80,6 +111,13 @@ public class Decoder {
         return index;
     }
 
+    /**
+     * Gauna vectorLength parametro ilgio atvirsktine dvejetaine skaiciaus reprezentacija
+     * Pvz: paduodama (4, 3) gautas atsakymas bus "001"
+     * @param number - skaicius kurio reprezentacija norima gauti
+     * @param vectorLength - reprezentacijos ilgis
+     * @return String tipo devjetaine skaiciaus representacija su pasirinktu ilgiu
+     */
     private String getReverseBinary(int number, int vectorLength) {
         StringBuilder builder = new StringBuilder();
         builder.append(Integer.toBinaryString(number));

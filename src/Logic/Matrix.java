@@ -16,6 +16,11 @@ public class Matrix {
         }
     }
 
+    /**
+     * pakeicia nurodytos matricos eilutes reiksmes
+     * @param rowIndex - eilutes indeksas, pradedant nuo 0
+     * @param values - reiksmiu masyvas
+     */
     public void setRow(int rowIndex, int[] values){
         if (values.length == width) {
             for (int i = 0; i < width; i++) {
@@ -27,6 +32,11 @@ public class Matrix {
                 + "Number of columns: " + width);
     }
 
+    /**
+     * pakeicia nurodyto matricos stulpelio reiksmes
+     * @param columnIndex - stulpelio indeksas, pradedant nuo 0
+     * @param values - reiksmiu masyvas
+     */
     public void setColumn(int columnIndex, int[] values) {
         if (values.length == height) {
             for (int i = 0; i < height; i++) {
@@ -38,6 +48,11 @@ public class Matrix {
                 + "Number of lines: " + height);
     }
 
+    /**
+     * Grazina nurodyta matricos eilute
+     * @param rowIndex - indeksas 0, ... this.height
+     * @return reiksmiu masyvas
+     */
     public int[] getRow(int rowIndex) {
         int[] result = new int[width];
         for (int i = 0; i < result.length; i ++) {
@@ -46,6 +61,11 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Grazina nurodyta matricos stulpeli
+     * @param columnIndex - indeksas 0, ... this.width
+     * @return reiksmiu masyvas
+     */
     public int[] getColumn(int columnIndex) {
         int[] result = new int[this.height];
         for (int i = 0; i < this.height; i++) {
@@ -54,6 +74,10 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Nustato naujas eilucku ir stulpeliu reiksmes
+     * @param values this.height * this.width reiksmiu masyvas
+     */
     public void setValues(int[] values) {
         if (values.length == height * width) {
             for (int i= 0; i < height; i++) {
@@ -67,6 +91,10 @@ public class Matrix {
                 + "Number of values in the parameter array: " + values.length);
     }
 
+    /**
+     * @return visos matricos reiksmes vienmacio masyvo formatu
+     * Reiksmes imamos taip: data[0][1], data[0][2] , ... data[1][0] ...
+     */
     public int[] getValues() {
         int[] result = new int[height * width];
         for (int i = 0; i < height; i++) {
@@ -77,6 +105,11 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Sudaugina einamaja matrica su i metoda paduota matrica
+     * @param matrix - matrica is kurios dauginti. Turi tenkinti salyga this.width == matrix.height
+     * @return einamosios ir i metoda paduotos matricos daugybos rezultatas
+     */
     public Matrix multiply(Matrix matrix) {
         if (this.width == matrix.height) {
             Matrix result = new Matrix(this.height, matrix.width);
@@ -98,6 +131,11 @@ public class Matrix {
                 + "Matrix 2 dimensions: " + matrix.height + "x" + matrix.width);
     }
 
+    /**
+     * Sudaugina dvi matricas moduliu 2
+     * @param matrix - matrica is kurios dauginti. Turi tenkinti salyga this.width == matrix.height
+     * @return einamosios ir i metoda paduotos matricos daugybos rezultatas
+     */
     public Matrix multiplyMod2(Matrix matrix) {
         Matrix result = this.multiply(matrix);
         for (int i = 0; i < result.height; i++) {
@@ -110,6 +148,11 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Grazina kronecker produkta einanamosios ir i metoda paduotos matricos
+     * @param matrix - 2 kroneckerio produkto operandas
+     * @return kroneckerio produktas nurodytu matricu
+     */
     public Matrix getKroneckerProduct(Matrix matrix) {
         Matrix result = new Matrix(this.height * matrix.height, this.width * matrix.width);
         Matrix[][] partials = getPartialMatrices(matrix);
@@ -121,6 +164,11 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * grazina masyva matricu is kuriu susides kroneckerio produkto rezultatas
+     * @param matrix - matrica kuri bus dauginama is einamosios matricos koordinaciu, taip generuojant tarpines matricas
+     * @return
+     */
     private Matrix[][] getPartialMatrices(Matrix matrix) {
         Matrix[][] result = new Matrix[height][width];
         int[] values = matrix.getValues();
@@ -134,6 +182,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Padaugina visus masyve esancius skaicius is multiplier parametru nurodyto skaiciaus
+     * @param array - skaiciu masyvas, kuris bus dauginamas
+     * @param multiplier - skaicius is kurio bus dauginama
+     * @return array masyvas padaugintas is multiplier
+     */
     private int[] multiplyIntArray(int[] array, int multiplier) {
         int[] result = new int[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -142,6 +196,12 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Iterpia i metoda paduota matrica i einamaja matrica (einamoji matrica turi buti didesniu dimensiju negu iterpiama matrica)
+     * @param matrix - matrica kuri bus iterpiama i einamaja
+     * @param startLine - nuo kurios einamosios matricos eilutes pradeti iterpineti reiksmes
+     * @param startColumn - nuo kurio einamosios matricos stulpelio pradeti iterpineti reiksmes
+     */
     private void insert(Matrix matrix, int startLine, int startColumn) {
         int[][] isertionData = matrix.getData();
         for (int i = startLine; i < startLine + matrix.height; i++) {
@@ -167,6 +227,10 @@ public class Matrix {
         this.width = width;
     }
 
+    /**
+     * Grazina matricos reiksmes dvieju dimensiju masyvo formatu
+     * @return this.data
+     */
     public int[][] getData() {
         int[][] result = new int[height][width];
         for (int i = 0; i < height; i++) {
@@ -177,6 +241,10 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * Pakeicia matricos reiksmes naujomis reiksmemis
+     * @param values - naujos matricos reiksmes dvieju dimensiju masyvo formatu (masyvo dimensijos turi sutapti su matricos dimensijomis)
+     */
     public void setValues(int[][] values) {
         if (values.length == data.length) {
             data = values;
@@ -186,6 +254,11 @@ public class Matrix {
                 + "Number of values in the parameter array: " + values.length);
     }
 
+    /**
+     * @return String tipo matricos reprezentacija.
+     * Visos reiksmes i string kintamaji surasomis be tarpu ar kitu specialiu simboliu.
+     * Reiksmes imamos taip: data[0][1], data[0][2] , ... data[1][0] ...
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
