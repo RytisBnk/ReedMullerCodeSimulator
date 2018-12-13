@@ -31,14 +31,6 @@ public class Encoder {
      * @return Vector objektu masyvas
      */
     private Vector[] splitToVectors(String message) {
-        int mod = message.length() % (m + 1);
-        String correctedMessage = message;
-        if (mod != 0) {
-            int difference = (m + 1) - mod;
-            for (int i = 0; i < difference; i++) {
-                correctedMessage = "0".concat(correctedMessage);
-            }
-        }
         BinaryConverter converter = new BinaryConverter();
         return converter.splitBinaryStringToVectors(message, m + 1);
     }
