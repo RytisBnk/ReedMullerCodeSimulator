@@ -20,7 +20,6 @@ public class TextFrame extends JFrame {
         JPanel mInputPane = new JPanel();
         JLabel mLabel = new JLabel("R(1, M) : M = ");
         final JTextField mInput = new JTextField();
-        mInput.setSize(100, 40);
         mInput.setPreferredSize(new Dimension(50, 20));
         mInputPane.add(mLabel);
         mInputPane.add(mInput);

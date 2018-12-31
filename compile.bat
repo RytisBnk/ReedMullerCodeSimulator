@@ -1,0 +1,1 @@
+javac -d out/production/ReedMullerCodeSimulator src/Main.java src/Tests/*.java src/Logic/*.java src/GUI/*.java
